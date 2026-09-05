@@ -121,6 +121,12 @@ public:
     void setGestureInProgress(bool);
     bool isGestureInProgress() const { return state.isGestureInProgress(); }
 
+    // Edge insets normally cap the pitch so the horizon never enters the
+    // padded viewport (see getMaxPitchForEdgeInsets). A host that renders its
+    // own sky can turn that cap off and use padding as a lens shift instead.
+    void setPitchLimitedByEdgeInsets(bool limited) { pitchLimitedByEdgeInsets = limited; }
+    bool isPitchLimitedByEdgeInsets() const { return pitchLimitedByEdgeInsets; }
+
     // Transform state
     const TransformState& getState() const { return state; }
     bool isRotating() const { return state.isRotating(); }
@@ -149,6 +155,8 @@ private:
 
     // We don't want to show horizon: limit max pitch based on edge insets.
     double getMaxPitchForEdgeInsets(const EdgeInsets& insets) const;
+
+    bool pitchLimitedByEdgeInsets = true;
 
     TimePoint transitionStart;
     Duration transitionDuration;

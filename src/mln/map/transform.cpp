@@ -730,7 +730,7 @@ LatLng Transform::screenCoordinateToLatLng(const ScreenCoordinate& point, LatLng
 
 double Transform::getMaxPitchForEdgeInsets(const EdgeInsets& insets) const {
     double centerOffsetY = 0.5 * (insets.top() - insets.bottom()); // See TransformState::getCenterOffset.
-    if (centerOffsetY == 0.0) {
+    if (centerOffsetY == 0.0 || !pitchLimitedByEdgeInsets) {
         return state.getMaxPitch();
     }
 

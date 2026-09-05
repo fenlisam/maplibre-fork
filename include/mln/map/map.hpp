@@ -64,6 +64,8 @@ public:
     void cancelTransitions();
     void setGestureInProgress(bool);
     bool isGestureInProgress() const;
+    void setPitchLimitedByEdgeInsets(bool);
+    bool isPitchLimitedByEdgeInsets() const;
     bool isRotating() const;
     bool isScaling() const;
     bool isPanning() const;

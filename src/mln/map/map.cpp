@@ -129,6 +129,14 @@ bool Map::isGestureInProgress() const {
     return impl->transform.isGestureInProgress();
 }
 
+void Map::setPitchLimitedByEdgeInsets(bool limited) {
+    impl->transform.setPitchLimitedByEdgeInsets(limited);
+}
+
+bool Map::isPitchLimitedByEdgeInsets() const {
+    return impl->transform.isPitchLimitedByEdgeInsets();
+}
+
 bool Map::isRotating() const {
     return impl->transform.isRotating();
 }

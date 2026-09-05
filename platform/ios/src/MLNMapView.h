@@ -1152,6 +1152,24 @@ of north, the map will automatically snap to exact north.
 @property (nonatomic) CLLocationDistance centerAltitude;
 
 /**
+ Whether a vertical `contentInset` is allowed to lower the effective maximum
+ pitch. The default is `YES`.
+
+ MapLibre shifts the perspective center with the content inset and then caps
+ the pitch so that the horizon can never enter the padded viewport
+ (`getMaxPitchForEdgeInsets`). That defeats the one thing a vertical inset is
+ good for on a ground-level camera: pushing the horizon down the frame to trade
+ foreground ground for skyline — with the cap in place, a top inset of 30% of
+ the view pulls an 85° pitch down to about 71° and the net elevation angle does
+ not change at all.
+
+ Set this to `NO` when the map draws its own sky and can tolerate the horizon
+ inside the padded area; the inset then behaves like a lens shift and the
+ pitch stays wherever `maximumPitch` allows.
+ */
+@property (nonatomic) BOOL limitsPitchForContentInset;
+
+/**
  Resets the map rotation to a northern heading — a `direction` of `0` degrees.
  */
 - (IBAction)resetNorth;

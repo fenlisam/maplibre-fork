@@ -4004,6 +4004,17 @@ static void *windowScreenContext = &windowScreenContext;
   self.mbglMap.jumpTo(mln::CameraOptions().withCenterAltitude(centerAltitude));
 }
 
+- (BOOL)limitsPitchForContentInset {
+  return self.mbglMap.isPitchLimitedByEdgeInsets();
+}
+
+- (void)setLimitsPitchForContentInset:(BOOL)limitsPitchForContentInset {
+  MLNLogDebug(@"Setting limitsPitchForContentInset: %d", limitsPitchForContentInset);
+  // Takes effect on the next camera change; the pitch cap is evaluated per
+  // transition frame in Transform::easeTo/flyTo.
+  self.mbglMap.setPitchLimitedByEdgeInsets(limitsPitchForContentInset);
+}
+
 - (MLNCoordinateBounds)visibleCoordinateBounds {
   return [self convertRect:self.bounds toCoordinateBoundsFromView:self];
 }
