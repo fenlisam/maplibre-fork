@@ -3982,6 +3982,28 @@ static void *windowScreenContext = &windowScreenContext;
   self.mbglMap.setBounds(mln::BoundOptions().withMaxPitch(maximumPitch));
 }
 
+- (CGFloat)fieldOfView {
+  return *self.mbglMap.getCameraOptions({}).fov;
+}
+
+- (void)setFieldOfView:(CGFloat)fieldOfView {
+  MLNLogDebug(@"Setting fieldOfView: %f", fieldOfView);
+  // CameraOptions carries the field of view in degrees; Transform clamps it
+  // to the state's min/max (0.1...150) and keeps it across later camera moves.
+  self.mbglMap.jumpTo(mln::CameraOptions().withFov(fieldOfView));
+}
+
+- (CLLocationDistance)centerAltitude {
+  return *self.mbglMap.getCameraOptions({}).centerAltitude;
+}
+
+- (void)setCenterAltitude:(CLLocationDistance)centerAltitude {
+  MLNLogDebug(@"Setting centerAltitude: %f", centerAltitude);
+  // Metres above sea level, may be negative. Like the field of view this is
+  // camera state that survives later camera moves.
+  self.mbglMap.jumpTo(mln::CameraOptions().withCenterAltitude(centerAltitude));
+}
+
 - (MLNCoordinateBounds)visibleCoordinateBounds {
   return [self convertRect:self.bounds toCoordinateBoundsFromView:self];
 }

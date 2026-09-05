@@ -1118,6 +1118,40 @@ of north, the map will automatically snap to exact north.
 @property (nonatomic) CGFloat maximumPitch;
 
 /**
+ The camera's vertical field of view, measured in degrees.
+
+ MapLibre's camera is fixed at a 36.87° vertical field of view unless this
+ property is set. Together with `maximumPitch` it decides how far above the
+ horizon the top edge of the viewport can see: at pitch 85° and the default
+ field of view the frame tops out at only ~13° above horizontal, so a camera
+ standing at eye level cannot fit a tall landmark into the frame no matter
+ how it is positioned. Widening the field of view raises that ceiling to
+ `pitch - 90 + fieldOfView / 2`.
+
+ Values are clamped to the range 0.1...150 degrees. The field of view is
+ camera state that survives `setCamera:` and the fly/ease methods — they
+ keep whatever value was last set here.
+
+ @note Wide values introduce the perspective stretching any wide-angle lens
+ has; the underlying projection stays a pinhole model.
+ */
+@property (nonatomic) CGFloat fieldOfView;
+
+/**
+ The altitude of the map's center point above sea level, measured in meters.
+
+ The camera sits above this point, so a negative value takes the whole camera
+ underground — which is the only way to look at subway tunnels from below in
+ this camera model, since `maximumPitch` keeps the view axis pointing downward
+ and the camera can never look up.
+
+ Setting this also pushes the far plane out: the frustum is fitted to the
+ center point's altitude, so geometry below sea level is clipped away while the
+ center stays at 0. The default value is 0.
+ */
+@property (nonatomic) CLLocationDistance centerAltitude;
+
+/**
  Resets the map rotation to a northern heading — a `direction` of `0` degrees.
  */
 - (IBAction)resetNorth;
